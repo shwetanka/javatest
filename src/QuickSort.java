@@ -6,7 +6,7 @@
 public class QuickSort  {
   public static int c=1;
   public static void main(String ... args){
-    int [] input = new int[] {10, 3, 5, 7, 9, 2, 8, 15, 6, 23, 14, 11, 19, 16};
+    int [] input = new int[] {10, 12, 11, 7, 9, 2, 8, 15, 6, 23, 6, 4, 19, 16, 17};
     quickSort(input, 0, input.length-1);
     for(int a : input){
       System.out.print(a+" ");
@@ -14,49 +14,58 @@ public class QuickSort  {
   }
 
   public static void quickSort(int[] inp, int st, int lt){
-    if(lt<=st){
+    if(st>=lt){
       return;
     }
-    int s = st;
-    int pi = s+(lt-s+1)/2;
+    int pi = st+(lt-st)/2;
     int pv = inp[pi];
+    int b = st;
     int e = lt;
-    while(s<e){
-      boolean swapS = false;
-      boolean swapE = false;
-      if(s==pi){
-        s++;
-        continue;
+    System.out.print("S: "+b+"  E: "+e+"  Pi: "+pi+"  Pv: "+pv+"    ");
+    for(int i : inp){
+      System.out.print(i+" ");
+    }
+    System.out.print("     ");
+    swap(inp, st, pi);
+    boolean ss = false;
+    boolean se = false;
+    st++;
+    while(st<lt){
+      if(inp[st] > pv){
+        ss = true;
+      }else{
+        st++;
       }
-      if(e==pi){
-        e--;
-        continue;
+      if(inp[lt] < pv){
+        se = true;
+      }else{
+        lt--;
       }
-      if(inp[s]<pv){
-        s++;
-      }else {
-        swapS = true;
-      }
-      if(inp[e]>=pv){
-        e--;
-      }else {
-        swapE = true;
-      }
-      if(swapS && swapE){
-        int tmp = inp[s];
-        inp[s] = inp[e];
-        inp[e] = tmp;
-        s++;
-        e--;
+      if(ss && se){
+        swap(inp, st, lt);
+        ss = false;
+        se = false;
+        st++;
+        lt--;
       }
     }
-    inp[pi] = inp[e];
-    inp[e] = pv;
-//    for(int v : inp){
-//      System.out.print(v+" ");
-//    }
-//    System.out.println();
-    quickSort(inp, st, e-1);
-    quickSort(inp, e+1, lt);
+    if(inp[st] > pv){
+      st--;
+      swap(inp, b, st);
+    }else{
+      swap(inp, b, st);
+    }
+    for(int i : inp){
+      System.out.print(i+" ");
+    }
+    System.out.println();
+    quickSort(inp, b, st-1);
+    quickSort(inp, st+1, e);
+  }
+
+  public static void swap(int[] inp, int i, int j){
+    int t = inp[i];
+    inp[i] = inp[j];
+    inp[j] = t;
   }
 }
